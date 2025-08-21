@@ -5,9 +5,14 @@ declare global {
 		widget_settings: Record<string, unknown>;
 		open: () => void;
 		on_load: () => void;
+		on_close: () => void;
+	}
+	interface ReactNativeWebView {
+		postMessage: (message: string) => void;
 	}
 	interface Window {
 		Userback: UserBack
+		ReactNativeWebView: ReactNativeWebView;
 	}
 
 }
@@ -39,7 +44,11 @@ window.Userback.user_data = {
 };
 window.Userback.on_load = () => {
 	window.Userback.open();
-
+};
+window.Userback.on_close = () => {
+	window.ReactNativeWebView.postMessage(JSON.stringify({
+		type: 'close_modal'
+	}));
 };
 (function(d) {
 	var s = d.createElement('script'); s.async = true; s.src = 'https://static.userback.io/widget/v1.js'; (d.head || d.body).appendChild(s);
