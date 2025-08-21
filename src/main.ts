@@ -7,6 +7,7 @@ declare global {
 		on_load: () => void;
 		on_close: () => void;
 		after_send: () => void;
+		native_screenshot: boolean;
 	}
 	interface ReactNativeWebView {
 		postMessage: (message: string) => void;
@@ -44,6 +45,7 @@ window.Userback.user_data = {
 window.Userback.on_load = () => {
 	window.Userback.open();
 };
+window.Userback.native_screenshot = true;
 
 const sendCloseEvent = () => window.ReactNativeWebView.postMessage(JSON.stringify({
 	type: 'close_modal'
