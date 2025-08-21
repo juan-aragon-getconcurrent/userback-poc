@@ -6,6 +6,7 @@ declare global {
 		open: () => void;
 		on_load: () => void;
 		on_close: () => void;
+		after_send: () => void;
 	}
 	interface ReactNativeWebView {
 		postMessage: (message: string) => void;
@@ -32,24 +33,24 @@ function getUser() {
 }
 
 const [user, id] = getUser();
-console.log({ user, id })
-
 
 window.Userback = window.Userback || {};
 window.Userback.access_token = "A-JC47UvzGlVMJ8CIcCVJ0RvdLf";
 // identify your logged-in users (optional)
 window.Userback.user_data = {
-	id, // example data
+	id,
 	info: user
 };
 window.Userback.on_load = () => {
 	window.Userback.open();
 };
-window.Userback.on_close = () => {
-	window.ReactNativeWebView.postMessage(JSON.stringify({
-		type: 'close_modal'
-	}));
-};
+
+const sendCloseEvent = () => window.ReactNativeWebView.postMessage(JSON.stringify({
+	type: 'close_modal'
+}));
+
+window.Userback.on_close = () => sendCloseEvent();
+window.Userback.after_send = () => sendCloseEvent();
 (function(d) {
 	var s = d.createElement('script'); s.async = true; s.src = 'https://static.userback.io/widget/v1.js'; (d.head || d.body).appendChild(s);
 })(document);
