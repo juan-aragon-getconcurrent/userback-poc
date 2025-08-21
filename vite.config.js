@@ -1,3 +1,3 @@
 export default {
-	base: 'userback-poc'
+	base: '/userback-poc'
 }
